@@ -36,7 +36,7 @@ class Homepage extends React.Component {
     const cuttingOnRow = 24 / countsOnRow;
     let cardPaddingPx = (screenWid - (20 * 2) - (300 * parseInt(screenWid / cardWid, 10))) / (2 * parseInt(screenWid / cardWid, 10));
     cardPaddingPx = cardPaddingPx >= 10 ? cardPaddingPx : 10;
-    console.log((screenWid / cardWid));
+
     _.map(processedData, (value, index) => {
 
       // setting conditions of filter types
@@ -53,7 +53,7 @@ class Homepage extends React.Component {
 
     // if search nothing, show no result
     if(videoLists.length === 0 && timeRadio !== 'default') {
-      return(<h2 style={{ textAlign: 'center' }}>沒有篩選結果</h2>);
+      return(<h2 className="noResultWords">沒有篩選結果</h2>);
     }
 
     return(videoLists);
@@ -65,7 +65,6 @@ class Homepage extends React.Component {
 
   render() {
     const { orderRadio, timeRadio } = this.state;
-    console.log(orderRadio, timeRadio)
     return(
       <Row id="homepage">
         <Row id="filterRow">
@@ -97,7 +96,7 @@ class Homepage extends React.Component {
             </RadioGroup>
           </Col>
           <Col span={24}>
-            <hr style={{ width: '95%' }}/>
+            <hr className="hrLine" />
           </Col>
         </Row>
         <Row id="cardsRow">

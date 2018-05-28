@@ -7,9 +7,14 @@ class VideoCard extends React.Component {
     super(props);
     this.state = {
       currentCaptionsIndex: 0,
+      imgWid: 300,
+      imgHei: 240,
+      imgMargin: '0px',
     }
     this.captionsClick = this.captionsClick.bind(this);
   }
+
+  // control caption's click
   captionsClick = () => {
     const { videos } = this.props;
     const { currentCaptionsIndex } = this.state;
@@ -21,16 +26,24 @@ class VideoCard extends React.Component {
   }
   render() {
     const { videos } = this.props;
-    const { currentCaptionsIndex } = this.state;
+    const { currentCaptionsIndex, imgWid, imgMargin, imgHei } = this.state;
     const captionsControl = {'cht':'中文', 'ja':'日文', 'vi':'越南文','en':'英文'};
     const levelControl = ['初級', '中級', '中高級', '高級'];
+    const durationMinutes = parseInt(videos.duration / 60, 10);
+    const durationSeconds = videos.duration % 60;
+    const durationTotal = `${durationMinutes < 10 ? 0 : ''}${durationMinutes}:`+
+      `${durationSeconds < 10 ? 0 : ''}${durationSeconds}`;
     return (
       <Card
+        className="cards"
+        style={{ minWidth: 300, width: 300, height: 386 }}
         hoverable
-        style={{ minWidth: 300, width: 300, height: 370 }}
+        onMouseOver={()=>{ this.setState({ imgWid: 330, imgHei: 264, imgMargin: '-15px' }) }}
+        onMouseLeave={()=>{ this.setState({ imgWid: 300, imgHei: 240, imgMargin: '0px' }) }}
         cover={
           <div style={{ maxHeight: 240 }}>
-            <img style={{ width: 300, height: 240 }} alt="example" src={videos.thumbnail} />
+            <img style={{ width: imgWid, height: imgHei, marginLeft: imgMargin }} alt="example" src={videos.thumbnail} />
+            <div className="timeCube">{durationTotal}</div>
           </div>
         }
       >
@@ -49,7 +62,7 @@ class VideoCard extends React.Component {
         </Col>
         <Col span={16}>
           <Button onClick={this.captionsClick} type="primary">{captionsControl[videos.captions[currentCaptionsIndex]]}</Button>
-          <Button style={{ backgroundColor: '#0ee0b0', borderColor: '#0ee0b0' }}type="primary">{levelControl[videos.level - 1]}</Button>
+          <Button id="levelButton" type="primary">{levelControl[videos.level - 1]}</Button>
         </Col>
       </Card>
     );
